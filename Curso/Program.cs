@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace CursoEFCore
@@ -10,7 +11,13 @@ namespace CursoEFCore
             using var db = new Data.ApplicationContext();
 
             // Indicado para utilizar somente em produção
-            db.Database.Migrate();
+            // db.Database.Migrate();
+
+            var migrationExists = db.Database.GetPendingMigrations().Any();
+            if (migrationExists)
+            {
+                Console.WriteLine("Pending migration exists");
+            }
         }
     }
 }
