@@ -27,11 +27,25 @@ namespace CursoEFCore
             // ConsultarDados();
             // CadastrarPedido();
             // ConsultarPedidoCarregamentoAdiantado();
-            AtualizarDados();
+            // AtualizarDados();
+            RemoverRegistro();
         }
         // cpf 088.223.414-57
 
-        private static void AtualizarDados() {
+        private static void RemoverRegistro()
+        {
+            using var db = new Data.ApplicationContext();
+            // var cliente = db.Clientes.Find(2);
+            var cliente = new Cliente { Id = 2 };
+
+            // db.Clientes.Remove(cliente);
+            // db.Remove(cliente);
+            db.Entry(cliente).State = EntityState.Deleted;
+
+            db.SaveChanges();
+        }
+        private static void AtualizarDados()
+        {
             using var db = new Data.ApplicationContext();
             // var cliente = db.Clientes.Find(1);
 
@@ -40,7 +54,8 @@ namespace CursoEFCore
                 Id = 1
             };
 
-            var clienteDesconectado = new {
+            var clienteDesconectado = new
+            {
                 Nome = "Cliente Desconectado passo 3",
                 Telefone = "1312341414",
             };
@@ -56,8 +71,8 @@ namespace CursoEFCore
         {
             using var db = new Data.ApplicationContext();
             var pedidos = db.Pedidos
-                .Include(p=>p.Itens)
-                    .ThenInclude(p=>p.Produto)
+                .Include(p => p.Itens)
+                    .ThenInclude(p => p.Produto)
                 .ToList();
 
             Console.WriteLine(pedidos.Count);
@@ -109,7 +124,6 @@ namespace CursoEFCore
                 db.Clientes.FirstOrDefault(p => p.Id == cliente.Id);
             }
         }
-
         private static void InserirDadosEmMassa()
         {
             var produto = new Produto
