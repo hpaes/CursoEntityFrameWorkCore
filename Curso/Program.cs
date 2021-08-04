@@ -26,10 +26,32 @@ namespace CursoEFCore
             // InserirDadosEmMassa();
             // ConsultarDados();
             // CadastrarPedido();
-            ConsultarPedidoCarregamentoAdiantado();
+            // ConsultarPedidoCarregamentoAdiantado();
+            AtualizarDados();
         }
         // cpf 088.223.414-57
 
+        private static void AtualizarDados() {
+            using var db = new Data.ApplicationContext();
+            // var cliente = db.Clientes.Find(1);
+
+            var cliente = new Cliente
+            {
+                Id = 1
+            };
+
+            var clienteDesconectado = new {
+                Nome = "Cliente Desconectado passo 3",
+                Telefone = "1312341414",
+            };
+
+            db.Attach(cliente);
+            db.Entry(cliente).CurrentValues.SetValues(clienteDesconectado);
+
+            // db.Entry(cliente).State = EntityState.Modified;
+            // db.Clientes.Update(cliente);
+            db.SaveChanges();
+        }
         private static void ConsultarPedidoCarregamentoAdiantado()
         {
             using var db = new Data.ApplicationContext();
